@@ -17,7 +17,6 @@ const getProjects = async (name: string) => {
   if (res.status === 200) {
     spinner.succeed(chalk.green('拉取成功'));
     const projectList = res.data.map((i: any) => i[name]);
-    console.log(projectList, 'projectList');
     return projectList;
   } else {
     spinner.fail(chalk.red('无法获取模版，暂时使用默认模版'));
