@@ -5,7 +5,7 @@ import ora from 'ora';
 import chalk from 'chalk';
 import { program } from 'commander';
 import { templates } from '@/constants';
-import { beautyLog, inquirerConfirm, removeDir, inquirerChoose } from '@/utils';
+import { beautyLog, inquirerChoose, inquirerConfirm, removeDir } from '@/utils';
 import { getProjectList } from '@/server';
 import { create, install } from '@/index';
 import pkg from './package.json';
@@ -16,10 +16,18 @@ const getProjects = async (name: string) => {
   const res = await getProjectList();
   if (res.status === 200) {
     spinner.succeed(chalk.green('拉取成功'));
-    const projectList = res.data.map((i: any) => i[name]);
-    return projectList;
+    return res.data.map((i: any) => i[name]);
   } else {
     spinner.fail(chalk.red('无法获取模版，暂时使用默认模版'));
+    return templates;
+  }
+};
+
+const getProjectsNoMsg = async (name: string) => {
+  const res = await getProjectList();
+  if (res.status === 200) {
+    return res.data.map((i: any) => i[name]);
+  } else {
     return templates;
   }
 };
@@ -71,7 +79,7 @@ const programCreateCallback = async (name: string, option: { force: boolean, tem
     console.log(beautyLog.warning, `存在相同项目文件夹${ chalk.yellowBright(name) }，正在强制删除`);
     await removeDir(name);
   }
-  const projectList = await getProjects('full_name');
+  const projectList = await getProjectsNoMsg('full_name');
   if (option.template) {
     const template = projectList.find((template: string) => template === `dnhyxc/${ option.template }`);
     if (!template) {
@@ -79,7 +87,7 @@ const programCreateCallback = async (name: string, option: { force: boolean, tem
       console.log(`\r\n运行${ beautyLog.arrow } ${ chalk.cyan(`dnhyxc-cli list`) } 查看所有可用模板\r\n`);
       return;
     }
-    repository = template.value;
+    repository = template;
   } else {
     // 选择远程git项目模板
     const answer = await inquirerChoose('请选择项目模板:', projectList);

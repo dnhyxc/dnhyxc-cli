@@ -1,25 +1,20 @@
-### ES6 使用
+### 安装方式
 
-```js
-import { add } from '@dnhyxc/core';
+全局安装 `dnhyxc-cli`：
 
-console.log(add(2, 9));
+```yaml
+npm install dnhyxc-cli -g
 ```
 
-### CommonJS 使用
+### 创建项目
 
-```js
-const { add } = require('@dnhyxc/core');
+运行 `dnhyxc-cli create <projectName>` 创建项目，可以加上 `-t` 参数来自定义设置模版，`-f` 参数强制覆盖本地同名项目，`-d`
+参数指定项目目录。。
 
-console.log(add(2, 9));
+```yaml
+dnhyxc-cli create <projectName>
+
+# 示例
+dnhyxc-cli create my-project
 ```
 
-### 通过 cdn 使用
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@dnhyxc/core@2.0.12/dist/index.js"></script>
-
-<script>
-  console.log(window.dnhyxcCore.add(12, 9));
-</script>
-```

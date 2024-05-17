@@ -1,6 +1,6 @@
 {
   "name": "dnhyxc-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "dnhyxc 自定义脚手架",
   "main": "dist/index.cjs",
   "typings": "dist/index.d.ts",
